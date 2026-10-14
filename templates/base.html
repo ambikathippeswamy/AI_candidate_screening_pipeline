@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ScreenAI{% endblock %} · Candidate Screening</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-icon">✦</span><span>Screen<span class="brand-accent">AI</span><small>RECRUITMENT WORKSPACE</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">▦ <span>Dashboard</span></a>
+    <a class="nav-link {% if request.endpoint in ['new_job','upload_resumes','job_candidates'] %}active{% endif %}" href="{{ url_for('dashboard') }}">▤ <span>Job openings</span></a>
+    <a class="nav-link {% if request.endpoint in ['all_candidates','candidate_detail'] %}active{% endif %}" href="{{ url_for('all_candidates') }}">♙ <span>Candidates</span></a>
+    <div class="sidebar-bottom"><div class="ai-mark">✧</div><b>AI-powered screening</b><p>Make your first review faster, with clear evidence for every match.</p><span class="version">DEMO VERSION · 1.0</span></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">RECRUITER WORKSPACE</span><h2>{% block page_heading %}Overview{% endblock %}</h2></div><div class="profile"><div class="avatar">R</div><div><b>Recruiter</b><small>Workspace admin</small></div></div></header>
+    <section class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}<div class="flash-list">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+      <footer>ScreenAI · Candidate screening assistant <span>Scores are decision-support signals, not hiring decisions.</span></footer>
+    </section>
+  </main>
+</body>
+</html>

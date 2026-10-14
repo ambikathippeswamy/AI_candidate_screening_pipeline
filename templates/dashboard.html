@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_heading %}Dashboard overview{% endblock %}
+{% block content %}
+<div class="welcome"><div><span class="pill light">✦ AI-ASSISTED RECRUITMENT</span><h1>Find the right talent,<br><em>with more clarity.</em></h1><p>Screen resumes against job requirements, compare evidence, and keep the final decision with your team.</p><a class="btn btn-white" href="{{ url_for('new_job') }}">＋ Create a job <span>→</span></a></div><div class="welcome-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="art-center">✦<small>AI</small></div><div class="float-card card-a">✓ <span>Skills matched</span></div><div class="float-card card-b">↗ <span>Candidate insights</span></div></div></div>
+<div class="section-heading"><div><h3>Workspace at a glance</h3><p>Your hiring activity, all in one place.</p></div><span class="muted">LIVE FROM YOUR LOCAL DATABASE</span></div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-top"><span>Total candidates</span><span class="stat-icon purple">♙</span></div><strong>{{ candidate_count }}</strong><small>Resumes analyzed</small></div>
+  <div class="stat-card"><div class="stat-top"><span>Active job profiles</span><span class="stat-icon blue">▤</span></div><strong>{{ jobs|length }}</strong><small>Roles being screened</small></div>
+  <div class="stat-card"><div class="stat-top"><span>Shortlisted</span><span class="stat-icon green">✓</span></div><strong>{{ shortlisted }}</strong><small>Marked by score or recruiter</small></div>
+  <div class="stat-card"><div class="stat-top"><span>Needs review</span><span class="stat-icon orange">◷</span></div><strong>{{ review }}</strong><small>Recruiter attention recommended</small></div>
+</div>
+<div class="two-col">
+  <div class="panel"><div class="panel-heading"><div><h3>Recent candidates</h3><p>Latest resume screening results</p></div><a class="text-link" href="{{ url_for('all_candidates') }}">View all →</a></div>
+  {% if recent %}<div class="table-wrap"><table><thead><tr><th>Candidate</th><th>Job</th><th>Match</th><th>Status</th></tr></thead><tbody>{% for c in recent %}<tr><td><a class="candidate-name" href="{{ url_for('candidate_detail', candidate_id=c.id) }}"><span class="mini-avatar">{{ c.name[:1]|upper }}</span>{{ c.name }}</a></td><td>{{ c.job_title }}</td><td><span class="score-text">{{ c.score }}%</span></td><td><span class="status {{ 'shortlisted' if c.status=='Shortlisted' else 'rejected' if c.status=='Not shortlisted' else 'review' }}">{{ c.status }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty"><div>♙</div><b>No candidates yet</b><p>Create a job and upload resumes to see your first results.</p><a class="btn btn-primary" href="{{ url_for('new_job') }}">Create your first job</a></div>{% endif %}</div>
+  <div class="panel"><div class="panel-heading"><div><h3>Job openings</h3><p>Job profiles ready for screening</p></div><a class="text-link" href="{{ url_for('new_job') }}">＋ New job</a></div>
+  {% if jobs %}<div class="job-list">{% for job in jobs %}<div class="job-item"><div class="job-icon">▤</div><div class="job-info"><b>{{ job.title }}</b><small>{{ job.skills }}</small><small>Created {{ job.created_at[:10] }}</small></div><a class="round-arrow" href="{{ url_for('job_candidates', job_id=job.id) }}">→</a><a class="small-action" href="{{ url_for('upload_resumes', job_id=job.id) }}">Upload resumes</a></div>{% endfor %}</div>{% else %}<div class="empty compact"><div>▤</div><b>No job profiles</b><p>Add a job role and its required skills first.</p><a class="text-link" href="{{ url_for('new_job') }}">＋ Create a job</a></div>{% endif %}</div>
+</div>
+{% endblock %}

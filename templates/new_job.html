@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Create job{% endblock %}{% block page_heading %}Create job profile{% endblock %}
+{% block content %}
+<div class="breadcrumbs"><a href="{{ url_for('dashboard') }}">Dashboard</a> / Create job</div>
+<div class="form-layout"><div class="panel form-panel"><div class="panel-heading"><div><h3>Job requirements</h3><p>Tell the screening assistant what matters for this role.</p></div><span class="step-count">STEP 1 OF 2</span></div>
+<form method="post" class="form-grid">
+  <label class="full">Job title <span>*</span><input name="title" required placeholder="e.g. AI/ML Intern"></label>
+  <label class="full">Required skills <span>*</span><textarea name="skills" required rows="3" placeholder="Python, Machine Learning, SQL, Pandas, Scikit-learn"></textarea><small>Separate skills with commas. These are used for the skills-match score.</small></label>
+  <label>Education preference<input name="education" placeholder="e.g. BE / BTech / MCA"></label>
+  <label>Experience range<input name="experience" placeholder="e.g. 0-2 years"></label>
+  <label class="full">Job description<textarea name="description" rows="5" placeholder="Describe responsibilities, projects, tools, and nice-to-have skills..."></textarea></label>
+  <div class="full form-actions"><a class="btn btn-outline" href="{{ url_for('dashboard') }}">Cancel</a><button class="btn btn-primary" type="submit">Save & continue to upload →</button></div>
+</form></div>
+<aside class="tip-panel"><div class="tip-icon">✦</div><h3>Good screening starts with clear criteria.</h3><p>Use job-related skills and requirements. Avoid protected or personal traits when evaluating applicants.</p><div class="tip-line"></div><b>What happens next?</b><ol><li>Save this job profile</li><li>Upload PDF, DOCX, or TXT resumes</li><li>Review ranked candidates and evidence</li></ol></aside></div>
+{% endblock %}
